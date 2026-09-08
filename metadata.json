@@ -1,0 +1,6 @@
+{
+  "name": "Email Signature & Digital Business Card Builder",
+  "description": "Zero-dependency email signature and digital business card builder with 20 languages, rich templates, live preview, and instant export.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,1732 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email Signature & Digital Business Card Builder</title>
+  <meta name="description" content="Free zero-dependency email signature and digital card builder. Create, customize, and copy responsive HTML signatures in 20 languages with live preview.">
+  <meta name="keywords" content="email signature generator, digital business card, html signature, email signature template, free signature maker">
+  <meta name="author" content="SignaCard Studio">
+  <link rel="canonical" href="https://example.com/signature-builder">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Email Signature & Digital Business Card Builder">
+  <meta property="og:description" content="Create professional HTML email signatures and digital cards instantly. 20 languages, zero-build, live preview.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1200&auto=format&fit=crop&q=80">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Email Signature & Digital Business Card Builder">
+  <meta name="twitter:description" content="Create professional HTML email signatures and digital cards instantly.">
+
+  <!-- PWA Meta & Inline Web Manifest -->
+  <meta name="theme-color" content="#0f172a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="SignaCard">
+  <link rel="manifest" href="data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22Email%20Signature%20Builder%22%2C%22short_name%22%3A%22SignaCard%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230f172a%22%2C%22theme_color%22%3A%22%230f172a%22%7D">
+
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Email Signature & Digital Business Card Builder",
+    "description": "Zero-dependency email signature and digital business card builder with 20 languages and real-time live preview.",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              500: '#4f46e5',
+              600: '#4338ca',
+              700: '#3730a3'
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    /* Custom scrollbar and smooth transitions */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.25); border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.45); }
+    .transition-all-fast { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans selection:bg-indigo-500/30 selection:text-indigo-200 transition-colors duration-300" id="app-body">
+
+  <!-- Header / Top Bar -->
+  <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-40" id="main-header">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3 min-w-0">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center shadow-lg shadow-indigo-500/20 text-white font-bold text-lg flex-shrink-0">
+          S
+        </div>
+        <div class="min-w-0">
+          <h1 class="font-bold text-base sm:text-lg tracking-tight text-white truncate" id="ui-title">SignaCard</h1>
+          <p class="text-xs text-slate-400 hidden sm:block truncate" id="ui-subtitle">Email Signature & Digital Card Builder</p>
+        </div>
+      </div>
+
+      <!-- Controls: 20-Language Selector, Presets, Theme Toggle -->
+      <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+        <!-- 20-Language Selector (Rule 1) -->
+        <div class="relative">
+          <label for="language-select" class="sr-only">Language</label>
+          <select id="language-select" class="appearance-none bg-slate-800 hover:bg-slate-700 text-xs sm:text-sm text-slate-200 rounded-lg px-2.5 py-1.5 pr-7 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer transition-all-fast">
+            <option value="en">English (US)</option>
+            <option value="ko">한국어 (KO)</option>
+            <option value="ja">日本語 (JA)</option>
+            <option value="zh">简体中文 (ZH)</option>
+            <option value="es">Español (ES)</option>
+            <option value="fr">Français (FR)</option>
+            <option value="de">Deutsch (DE)</option>
+            <option value="pt">Português (PT)</option>
+            <option value="ru">Русский (RU)</option>
+            <option value="it">Italiano (IT)</option>
+            <option value="vi">Tiếng Việt (VI)</option>
+            <option value="th">ไทย (TH)</option>
+            <option value="id">Bahasa Indonesia (ID)</option>
+            <option value="tr">Türkçe (TR)</option>
+            <option value="pl">Polski (PL)</option>
+            <option value="nl">Nederlands (NL)</option>
+            <option value="ar">العربية (AR)</option>
+            <option value="hi">हिन्दी (HI)</option>
+            <option value="sv">Svenska (SV)</option>
+            <option value="uk">Українська (UK)</option>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400">
+            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/></svg>
+          </div>
+        </div>
+
+        <!-- Theme Toggle (Rule 7) -->
+        <button id="theme-toggle-btn" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-all-fast" title="Toggle Theme" aria-label="Toggle Dark/Light Mode">
+          <svg id="theme-icon-dark" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+          <svg id="theme-icon-light" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 9H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+        </button>
+
+        <!-- Share URL Button (Rule 4 & 12) -->
+        <button id="btn-share-url" class="inline-flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs sm:text-sm font-medium px-3 py-1.5 rounded-lg shadow-sm transition-all-fast" title="Copy Shareable URL">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+          <span class="hidden sm:inline" id="lbl-share">Share</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Responsive Ad Slot (Rule 17) -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-4">
+    <!-- AD SLOT -->
+    <div id="ad-slot-header" class="w-full h-[90px] rounded-xl border border-dashed border-slate-800 bg-slate-900/40 flex items-center justify-center text-xs font-mono text-slate-500 gap-2 select-none overflow-hidden" aria-label="Sponsored Space">
+      <svg class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>
+      <span>SPONSOR AD SLOT (728x90 / 320x50 Responsive Area)</span>
+    </div>
+  </div>
+
+  <!-- Main Workspace (Mobile-First 2-Column on Desktop) -->
+  <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full grid grid-cols-1 lg:grid-cols-12 gap-6 items-start" id="main-content">
+    
+    <!-- LEFT COLUMN: Inputs & Customization (7 Cols on LG) -->
+    <section class="lg:col-span-6 space-y-5" aria-label="Signature Editor">
+
+      <!-- Navigation / Tabs for Editor Sections -->
+      <div class="flex items-center gap-1.5 p-1 bg-slate-900 border border-slate-800 rounded-xl overflow-x-auto text-xs sm:text-sm font-medium" id="editor-tabs" role="tablist">
+        <button class="tab-btn active px-3 py-2 rounded-lg transition-all-fast text-slate-200 bg-slate-800 shadow-sm" data-tab="tab-profile" id="tab-btn-profile">Profile</button>
+        <button class="tab-btn px-3 py-2 rounded-lg transition-all-fast text-slate-400 hover:text-slate-200" data-tab="tab-company" id="tab-btn-company">Company</button>
+        <button class="tab-btn px-3 py-2 rounded-lg transition-all-fast text-slate-400 hover:text-slate-200" data-tab="tab-contact" id="tab-btn-contact">Contact</button>
+        <button class="tab-btn px-3 py-2 rounded-lg transition-all-fast text-slate-400 hover:text-slate-200" data-tab="tab-social" id="tab-btn-social">Social</button>
+        <button class="tab-btn px-3 py-2 rounded-lg transition-all-fast text-slate-400 hover:text-slate-200" data-tab="tab-styling" id="tab-btn-styling">Style</button>
+      </div>
+
+      <!-- Tab Content Area -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xl space-y-4">
+        
+        <!-- Tab 1: Profile -->
+        <div id="tab-profile" class="tab-panel space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="field-fullName" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5" id="lbl-fullName">Full Name</label>
+              <input type="text" id="field-fullName" class="input-field w-full bg-slate-800/80 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500 transition-all-fast" placeholder="Alexander Wright">
+            </div>
+            <div>
+              <label for="field-jobTitle" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5" id="lbl-jobTitle">Job Title</label>
+              <input type="text" id="field-jobTitle" class="input-field w-full bg-slate-800/80 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500 transition-all-fast" placeholder="Senior Product Architect">
+            </div>
+          </div>
+          <div>
+            <label for="field-avatarUrl" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5" id="lbl-avatarUrl">Avatar / Photo URL</label>
+            <div class="flex gap-2">
+              <input type="url" id="field-avatarUrl" class="input-field flex-1 bg-slate-800/80 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500 transition-all-fast" placeholder="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200">
+              <button type="button" id="btn-sample-avatar" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs rounded-lg text-slate-300" title="Load sample avatar">Random</button>
+            </div>
+            <p class="text-[11px] text-slate-400 mt-1" id="hint-avatar">Leave empty to auto-generate sleek initials monogram.</p>
+          </div>
+          <div>
+            <label for="field-pronouns" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5" id="lbl-pronouns">Pronouns (Optional)</label>
+            <input type="text" id="field-pronouns" class="input-field w-full bg-slate-800/80 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500 transition-all-fast" placeholder="he/him or they/them">
+          </div>
+        </div>
+
+        <!-- Tab 2: Company -->
+        <div id="tab-company" class="tab-panel hidden space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="field-company" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5" id="lbl-company">Company Name</label>
+              <input type="text" id="field-company" class="input-field w-full bg-slate-800/80 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500 transition-all-fast" placeholder="Apex Innovations Inc.">
+            </div>
+            <div>
+              <label for="field-department" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5" id="lbl-department">Department</label>
+              <input type="text" id="field-department" class="input-field w-full bg-slate-800/80 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500 transition-all-fast" placeholder="Engineering & Design">
+            </div>
+          </div>
+          <div>
+            <label for="field-website" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5" id="lbl-website">Website URL</label>
+            <input type="url" id="field-website" class="input-field w-full bg-slate-800/80 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500 transition-all-fast" placeholder="https://apextech.io">
+          </div>
+          <div>
+            <label for="field-address" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5" id="lbl-address">Office Address</label>
+            <input type="text" id="field-address" class="input-field w-full bg-slate-800/80 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500 transition-all-fast" placeholder="500 Howard St, Suite 400, San Francisco, CA">
+          </div>
+        </div>
+
+        <!-- Tab 3: Contact Details -->
+        <div id="tab-contact" class="tab-panel hidden space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="field-email" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5" id="lbl-email">Email Address</label>
+              <input type="email" id="field-email" class="input-field w-full bg-slate-800/80 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500 transition-all-fast" placeholder="alexander@apextech.io">
+            </div>
+            <div>
+              <label for="field-phone" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5" id="lbl-phone">Work Phone</label>
+              <input type="tel" id="field-phone" class="input-field w-full bg-slate-800/80 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500 transition-all-fast" placeholder="+1 (415) 890-2345">
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="field-mobile" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5" id="lbl-mobile">Mobile / WhatsApp</label>
+              <input type="tel" id="field-mobile" class="input-field w-full bg-slate-800/80 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500 transition-all-fast" placeholder="+1 (415) 789-0123">
+            </div>
+            <div>
+              <label for="field-calendar" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5" id="lbl-calendar">Calendar / Booking Link</label>
+              <input type="url" id="field-calendar" class="input-field w-full bg-slate-800/80 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500 transition-all-fast" placeholder="https://cal.com/alexander">
+            </div>
+          </div>
+          <div>
+            <label for="field-disclaimer" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5" id="lbl-disclaimer">Legal Disclaimer / Notice (Optional)</label>
+            <textarea id="field-disclaimer" rows="2" class="input-field w-full bg-slate-800/80 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500 transition-all-fast" placeholder="This transmission may contain confidential information. If received in error, please notify sender."></textarea>
+          </div>
+        </div>
+
+        <!-- Tab 4: Social Links -->
+        <div id="tab-social" class="tab-panel hidden space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="field-linkedin" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">LinkedIn Profile</label>
+              <input type="url" id="field-linkedin" class="input-field w-full bg-slate-800/80 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500" placeholder="https://linkedin.com/in/username">
+            </div>
+            <div>
+              <label for="field-twitter" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">X / Twitter</label>
+              <input type="url" id="field-twitter" class="input-field w-full bg-slate-800/80 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500" placeholder="https://x.com/username">
+            </div>
+            <div>
+              <label for="field-github" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">GitHub</label>
+              <input type="url" id="field-github" class="input-field w-full bg-slate-800/80 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500" placeholder="https://github.com/username">
+            </div>
+            <div>
+              <label for="field-instagram" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Instagram / Portfolio</label>
+              <input type="url" id="field-instagram" class="input-field w-full bg-slate-800/80 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500" placeholder="https://instagram.com/username">
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 5: Styling & Preset Customizer (Rule 7) -->
+        <div id="tab-styling" class="tab-panel hidden space-y-5">
+          <!-- Template Selection -->
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2" id="lbl-template">Signature Template</label>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5" id="template-options">
+              <button type="button" class="template-btn active p-2.5 rounded-xl border text-left text-xs font-medium transition-all-fast bg-slate-800 border-indigo-500 text-white" data-template="modern">
+                <span class="block font-semibold">Modern Minimal</span>
+                <span class="text-[10px] text-slate-400">Vertical bar & avatar</span>
+              </button>
+              <button type="button" class="template-btn p-2.5 rounded-xl border text-left text-xs font-medium transition-all-fast bg-slate-800/50 border-slate-700 text-slate-300 hover:border-slate-500" data-template="corporate">
+                <span class="block font-semibold">Corporate Crisp</span>
+                <span class="text-[10px] text-slate-400">Structured legal table</span>
+              </button>
+              <button type="button" class="template-btn p-2.5 rounded-xl border text-left text-xs font-medium transition-all-fast bg-slate-800/50 border-slate-700 text-slate-300 hover:border-slate-500" data-template="compact">
+                <span class="block font-semibold">Compact Line</span>
+                <span class="text-[10px] text-slate-400">Fast one-line replies</span>
+              </button>
+              <button type="button" class="template-btn p-2.5 rounded-xl border text-left text-xs font-medium transition-all-fast bg-slate-800/50 border-slate-700 text-slate-300 hover:border-slate-500" data-template="card">
+                <span class="block font-semibold">Digital Card</span>
+                <span class="text-[10px] text-slate-400">Badge & QR Code</span>
+              </button>
+              <button type="button" class="template-btn p-2.5 rounded-xl border text-left text-xs font-medium transition-all-fast bg-slate-800/50 border-slate-700 text-slate-300 hover:border-slate-500" data-template="creative">
+                <span class="block font-semibold">Creative Accent</span>
+                <span class="text-[10px] text-slate-400">Bold contrast tag</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Color Presets -->
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2" id="lbl-color">Accent Palette</label>
+            <div class="flex items-center gap-3 flex-wrap" id="color-options">
+              <button type="button" class="color-btn active w-8 h-8 rounded-full border-2 border-white shadow-md bg-indigo-600 transition-transform scale-110" data-color="#4f46e5" title="Modern Indigo"></button>
+              <button type="button" class="color-btn w-8 h-8 rounded-full border-2 border-transparent hover:scale-105 bg-emerald-600 transition-transform" data-color="#059669" title="Executive Emerald"></button>
+              <button type="button" class="color-btn w-8 h-8 rounded-full border-2 border-transparent hover:scale-105 bg-amber-600 transition-transform" data-color="#d97706" title="Warm Amber"></button>
+              <button type="button" class="color-btn w-8 h-8 rounded-full border-2 border-transparent hover:scale-105 bg-rose-600 transition-transform" data-color="#e11d48" title="Rosewood"></button>
+              <button type="button" class="color-btn w-8 h-8 rounded-full border-2 border-transparent hover:scale-105 bg-slate-600 transition-transform" data-color="#475569" title="Slate Minimal"></button>
+              <button type="button" class="color-btn w-8 h-8 rounded-full border-2 border-transparent hover:scale-105 bg-purple-600 transition-transform" data-color="#9333ea" title="Royal Violet"></button>
+            </div>
+          </div>
+
+          <!-- Typography Preset -->
+          <div>
+            <label for="font-family-select" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Signature Font</label>
+            <select id="font-family-select" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
+              <option value="Arial, Helvetica, sans-serif">Standard Modern (Arial / Helvetica)</option>
+              <option value="'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">Clean Tech (Segoe UI / Tahoma)</option>
+              <option value="Georgia, serif">Editorial Classic (Georgia / Serif)</option>
+              <option value="'Trebuchet MS', 'Lucida Sans Unicode', sans-serif">Energetic Humanist (Trebuchet MS)</option>
+            </select>
+          </div>
+
+          <!-- Font Size Slider (Small, Medium, Large) -->
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <label for="font-size-slider" class="text-xs font-semibold text-slate-300 uppercase tracking-wider" id="lbl-font-size">Font Size</label>
+              <span id="font-size-badge" class="px-2 py-0.5 text-xs font-medium rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Medium</span>
+            </div>
+            <div class="space-y-1.5">
+              <input type="range" id="font-size-slider" min="1" max="3" step="1" value="2" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-indigo-500">
+              <div class="flex justify-between text-[11px] text-slate-400 px-0.5 select-none">
+                <button type="button" id="btn-size-small" class="hover:text-indigo-400 transition-colors cursor-pointer">Small</button>
+                <button type="button" id="btn-size-medium" class="hover:text-indigo-400 transition-colors cursor-pointer">Medium</button>
+                <button type="button" id="btn-size-large" class="hover:text-indigo-400 transition-colors cursor-pointer">Large</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Quick Action Utilities: Presets & JSON Export/Import (Rule 15) -->
+      <div class="flex flex-wrap items-center justify-between gap-3 text-xs">
+        <div class="flex items-center gap-2">
+          <button type="button" id="btn-export-json" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-all-fast flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+            <span id="lbl-export-json">Export JSON</span>
+          </button>
+          <button type="button" id="btn-import-json" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-all-fast flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            <span id="lbl-import-json">Import JSON</span>
+          </button>
+          <button type="button" id="btn-download-vcard" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-all-fast flex items-center gap-1.5" title="Download .vcf contact card">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"/></svg>
+            <span>vCard (.vcf)</span>
+          </button>
+        </div>
+        <button type="button" id="btn-reset" class="px-2.5 py-1.5 text-slate-500 hover:text-rose-400 transition-all-fast flex items-center gap-1" id="lbl-reset">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+          <span>Reset</span>
+        </button>
+      </div>
+
+    </section>
+
+    <!-- RIGHT COLUMN: Real-Time Live Preview & Instant Exports (6 Cols on LG) -->
+    <section class="lg:col-span-6 space-y-5 lg:sticky lg:top-24" aria-label="Signature Preview">
+      
+      <!-- Preview Frame Header with View Switcher -->
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-2xl space-y-4">
+        <div class="flex items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <h2 class="font-bold text-sm tracking-tight text-white" id="lbl-live-preview">Live Signature Preview</h2>
+          </div>
+          <div class="flex items-center gap-1 bg-slate-800/80 p-1 rounded-lg text-xs" id="preview-mode-buttons">
+            <button type="button" class="preview-mode-btn active px-2.5 py-1 rounded bg-slate-700 text-white" data-mode="desktop">Desktop</button>
+            <button type="button" class="preview-mode-btn px-2.5 py-1 rounded text-slate-400 hover:text-slate-200" data-mode="mobile">Mobile</button>
+            <button type="button" class="preview-mode-btn px-2.5 py-1 rounded text-slate-400 hover:text-slate-200" data-mode="card">Card</button>
+          </div>
+        </div>
+
+        <!-- Render Container (White Canvas for Email Client Fidelity) -->
+        <div class="rounded-xl overflow-hidden border border-slate-700/60 bg-white text-slate-900 shadow-inner p-4 sm:p-6 transition-all min-h-[220px] flex items-center justify-center" id="preview-wrapper">
+          <div id="signature-render-target" class="w-full select-text transition-all duration-200">
+            <!-- Dynamically generated HTML signature will be injected here -->
+          </div>
+        </div>
+
+        <!-- Export & Copy Actions (Rule 4) -->
+        <div class="space-y-2.5 pt-2">
+          <!-- Primary Action: Copy Rich Signature (Direct Paste for Gmail/Outlook) -->
+          <button type="button" id="btn-copy-rich" class="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-500 active:scale-[0.99] text-white font-semibold rounded-xl shadow-lg shadow-indigo-500/25 flex items-center justify-center gap-2 text-sm transition-all-fast focus:ring-2 focus:ring-indigo-400 focus:outline-none" aria-label="Copy formatted signature for email clients">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+            <span id="lbl-copy-rich">Copy Signature (for Gmail / Outlook)</span>
+          </button>
+
+          <!-- Secondary Actions Grid -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            <button type="button" id="btn-copy-html" class="py-2.5 px-3 bg-slate-800 hover:bg-slate-700 active:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg border border-slate-700 flex items-center justify-center gap-1.5 transition-all-fast" title="Copy raw HTML code">
+              <svg class="w-3.5 h-3.5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+              <span id="lbl-copy-html">Copy HTML</span>
+            </button>
+
+            <button type="button" id="btn-copy-text" class="py-2.5 px-3 bg-slate-800 hover:bg-slate-700 active:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg border border-slate-700 flex items-center justify-center gap-1.5 transition-all-fast" title="Copy clean text">
+              <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              <span id="lbl-copy-text">Plain Text</span>
+            </button>
+
+            <button type="button" id="btn-download-html" class="py-2.5 px-3 bg-slate-800 hover:bg-slate-700 active:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg border border-slate-700 flex items-center justify-center gap-1.5 transition-all-fast col-span-2 sm:col-span-1" title="Download standalone HTML file">
+              <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+              <span id="lbl-download-html">Download .html</span>
+            </button>
+          </div>
+
+          <!-- Instruction Tip (Rule 8 Keyboard Shortcuts info) -->
+          <div class="pt-2 flex items-center justify-between text-[11px] text-slate-500">
+            <span>Shortcuts: <kbd class="px-1.5 py-0.5 bg-slate-800 border border-slate-700 rounded text-slate-300">Ctrl+Shift+C</kbd> Copy HTML</span>
+            <span class="text-emerald-400 flex items-center gap-1">
+              <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+              Auto-saved
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Quick Guidance & Compatibility Box -->
+      <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-4 text-xs text-slate-400 space-y-2">
+        <h3 class="font-semibold text-slate-200 flex items-center gap-2">
+          <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          How to apply in Gmail, Outlook, or Apple Mail:
+        </h3>
+        <p>1. Click <strong class="text-slate-300">"Copy Signature"</strong> above.</p>
+        <p>2. Open your email client's settings &rarr; Signature editor &rarr; Paste (<kbd class="px-1 bg-slate-800 border border-slate-700 rounded text-slate-300">Ctrl+V</kbd> / <kbd class="px-1 bg-slate-800 border border-slate-700 rounded text-slate-300">Cmd+V</kbd>).</p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Footer & Analytics/Feedback Slot (Rule 14) -->
+  <footer class="mt-auto border-t border-slate-800 bg-slate-900/60 py-6" id="main-footer">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+      <div class="flex items-center gap-2">
+        <span class="font-semibold text-slate-300">SignaCard Studio</span>
+        <span>&bull;</span>
+        <span>Zero-Build, 100% Client-Side Privacy</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <button type="button" id="btn-feedback" class="hover:text-indigo-400 transition-colors flex items-center gap-1">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+          <span id="lbl-feedback">Feedback & Support</span>
+        </button>
+        <span>&bull;</span>
+        <span class="text-slate-500">20 Languages Supported</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal: JSON Export / Import (Rule 15) -->
+  <div id="json-modal" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true" aria-labelledby="json-modal-title">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 id="json-modal-title" class="text-base font-bold text-white">Preset JSON Data</h3>
+        <button type="button" id="btn-close-json-modal" class="p-1 text-slate-400 hover:text-white rounded-lg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <p class="text-xs text-slate-400">Copy this JSON string to share your template, or paste a saved configuration below to import.</p>
+      <textarea id="json-textarea" rows="8" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs font-mono text-indigo-300 focus:outline-none focus:border-indigo-500"></textarea>
+      <div class="flex items-center justify-end gap-3 pt-2">
+        <button type="button" id="btn-copy-json" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium rounded-lg">Copy JSON</button>
+        <button type="button" id="btn-apply-json" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-lg shadow-sm">Load Preset</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Feedback & Support (Rule 14) -->
+  <div id="feedback-modal" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true" aria-labelledby="feedback-modal-title">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 id="feedback-modal-title" class="text-base font-bold text-white">Share Your Feedback</h3>
+        <button type="button" id="btn-close-feedback-modal" class="p-1 text-slate-400 hover:text-white rounded-lg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <p class="text-xs text-slate-400">Tell us what you love or what you'd like improved. Your thoughts shape the next updates!</p>
+      <div class="space-y-3">
+        <div>
+          <label for="feedback-category" class="block text-xs font-semibold text-slate-300 mb-1">Category</label>
+          <select id="feedback-category" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none">
+            <option value="feature">Feature Request</option>
+            <option value="template">New Signature Template</option>
+            <option value="bug">Report an Issue</option>
+            <option value="other">General Compliment or Question</option>
+          </select>
+        </div>
+        <div>
+          <label for="feedback-text" class="block text-xs font-semibold text-slate-300 mb-1">Your Message</label>
+          <textarea id="feedback-text" rows="4" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="Type your suggestion or feedback here..."></textarea>
+        </div>
+      </div>
+      <div class="flex items-center justify-end gap-2 pt-2">
+        <button type="button" id="btn-submit-feedback" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-lg shadow-sm">Submit Feedback</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sleek Global Toast Notification (Rule 16) -->
+  <div id="toast-notification" class="fixed bottom-5 right-5 z-50 transform translate-y-16 opacity-0 pointer-events-none transition-all duration-300 ease-out flex items-center gap-2.5 px-4 py-3 rounded-xl shadow-2xl border text-xs sm:text-sm font-medium" role="status" aria-live="polite">
+    <span id="toast-icon"></span>
+    <span id="toast-message">Notification message</span>
+  </div>
+
+  <!-- Pure Vanilla JavaScript Application Logic (Rules 1, 3, 4, 8, 9, 12, 13, 15, 16) -->
+  <script>
+    (function () {
+      'use strict';
+
+      // 1. Comprehensive 20-Language i18n Dictionary (Rule 1)
+      const I18N = {
+        en: {
+          dir: 'ltr',
+          title: 'SignaCard',
+          subtitle: 'Email Signature & Digital Card Builder',
+          profile: 'Profile', company: 'Company', contact: 'Contact', social: 'Social', style: 'Style',
+          fullName: 'Full Name', jobTitle: 'Job Title', avatarUrl: 'Photo / Avatar URL', pronouns: 'Pronouns',
+          companyName: 'Company Name', department: 'Department', website: 'Website URL', address: 'Office Address',
+          email: 'Email Address', phone: 'Work Phone', mobile: 'Mobile Phone', calendar: 'Booking Link', disclaimer: 'Legal Disclaimer',
+          copyRich: 'Copy Signature (Gmail / Outlook)', copyHtml: 'Copy HTML', copyText: 'Plain Text', downloadHtml: 'Download .html',
+          share: 'Share', livePreview: 'Live Signature Preview', exportJson: 'Export JSON', importJson: 'Import JSON',
+          reset: 'Reset', feedback: 'Feedback & Support', copied: 'Copied to clipboard!', saved: 'Auto-saved'
+        },
+        ko: {
+          dir: 'ltr',
+          title: 'SignaCard',
+          subtitle: '이메일 서명 및 디지털 명함 제작기',
+          profile: '프로필', company: '회사 정보', contact: '연락처', social: '소셜 링크', style: '스타일',
+          fullName: '성명', jobTitle: '직함 / 직책', avatarUrl: '프로필 사진 URL', pronouns: '호칭 / 대명사',
+          companyName: '회사명', department: '부서', website: '웹사이트 URL', address: '회사 주소',
+          email: '이메일 주소', phone: '직통 전화', mobile: '휴대폰 번호', calendar: '미팅 예약 링크', disclaimer: '법적 고지문',
+          copyRich: '서명 복사 (Gmail / Outlook)', copyHtml: 'HTML 복사', copyText: '텍스트 복사', downloadHtml: 'HTML 다운로드',
+          share: '공유하기', livePreview: '실시간 서명 미리보기', exportJson: 'JSON 내보내기', importJson: 'JSON 가져오기',
+          reset: '초기화', feedback: '피드백 & 지원', copied: '클립보드에 복사되었습니다!', saved: '자동 저장됨'
+        },
+        ja: {
+          dir: 'ltr',
+          title: 'SignaCard',
+          subtitle: 'メール署名＆デジタル名刺作成ツール',
+          profile: 'プロフィール', company: '会社情報', contact: '連絡先', social: 'SNS', style: 'デザイン',
+          fullName: '氏名', jobTitle: '役職・肩書', avatarUrl: '顔写真URL', pronouns: '代名詞',
+          companyName: '会社名', department: '所属部署', website: 'Webサイト', address: '所在地',
+          email: 'メールアドレス', phone: '代表電話', mobile: '携帯番号', calendar: '日程調整リンク', disclaimer: '免責事項',
+          copyRich: '署名をコピー (Gmail / Outlook)', copyHtml: 'HTMLコピー', copyText: 'テキストコピー', downloadHtml: 'HTML保存',
+          share: '共有', livePreview: 'リアルタイムプレビュー', exportJson: 'JSON出力', importJson: 'JSON読込',
+          reset: 'リセット', feedback: 'ご意見・サポート', copied: 'クリップボードにコピーしました！', saved: '保存済み'
+        },
+        zh: {
+          dir: 'ltr',
+          title: 'SignaCard',
+          subtitle: '电子邮件签名与数字名片生成器',
+          profile: '个人资料', company: '公司信息', contact: '联系方式', social: '社交网络', style: '外观样式',
+          fullName: '姓名', jobTitle: '职位头衔', avatarUrl: '头像照片URL', pronouns: '称谓',
+          companyName: '公司名称', department: '所属部门', website: '官方网站', address: '办公地址',
+          email: '电子邮箱', phone: '办公电话', mobile: '手机号码', calendar: '预约链接', disclaimer: '免责声明',
+          copyRich: '复制签名 (适用于Gmail/Outlook)', copyHtml: '复制HTML代码', copyText: '复制纯文本', downloadHtml: '下载HTML文件',
+          share: '分享链接', livePreview: '实时签名预览', exportJson: '导出JSON', importJson: '导入JSON',
+          reset: '重置', feedback: '意见与支持', copied: '已复制到剪贴板！', saved: '已自动保存'
+        },
+        es: {
+          dir: 'ltr',
+          title: 'SignaCard',
+          subtitle: 'Creador de Firmas de Correo y Tarjetas Digitales',
+          profile: 'Perfil', company: 'Empresa', contact: 'Contacto', social: 'Redes', style: 'Estilo',
+          fullName: 'Nombre Completo', jobTitle: 'Cargo / Puesto', avatarUrl: 'URL de Foto / Avatar', pronouns: 'Pronombres',
+          companyName: 'Nombre de Empresa', department: 'Departamento', website: 'Sitio Web', address: 'Dirección',
+          email: 'Correo Electrónico', phone: 'Teléfono Fijo', mobile: 'Móvil / WhatsApp', calendar: 'Enlace de Citas', disclaimer: 'Aviso Legal',
+          copyRich: 'Copiar Firma (Gmail / Outlook)', copyHtml: 'Copiar HTML', copyText: 'Texto Plano', downloadHtml: 'Descargar HTML',
+          share: 'Compartir', livePreview: 'Vista Previa en Vivo', exportJson: 'Exportar JSON', importJson: 'Importar JSON',
+          reset: 'Restablecer', feedback: 'Comentarios y Ayuda', copied: '¡Copiado al portapapeles!', saved: 'Guardado'
+        },
+        fr: {
+          dir: 'ltr',
+          title: 'SignaCard',
+          subtitle: 'Générateur de Signature Email & Carte Numérique',
+          profile: 'Profil', company: 'Société', contact: 'Contact', social: 'Réseaux', style: 'Design',
+          fullName: 'Nom Complet', jobTitle: 'Titre / Fonction', avatarUrl: 'URL de la Photo', pronouns: 'Pronoms',
+          companyName: 'Nom de l’Entreprise', department: 'Département', website: 'Site Internet', address: 'Adresse',
+          email: 'Adresse Email', phone: 'Téléphone Bureau', mobile: 'Mobile', calendar: 'Lien de Rendez-vous', disclaimer: 'Mention Légale',
+          copyRich: 'Copier la Signature (Gmail / Outlook)', copyHtml: 'Copier le HTML', copyText: 'Texte Brut', downloadHtml: 'Télécharger HTML',
+          share: 'Partager', livePreview: 'Aperçu en Direct', exportJson: 'Exporter JSON', importJson: 'Importer JSON',
+          reset: 'Réinitialiser', feedback: 'Assistance & Avis', copied: 'Copié dans le presse-papiers !', saved: 'Enregistré'
+        },
+        de: {
+          dir: 'ltr',
+          title: 'SignaCard',
+          subtitle: 'E-Mail-Signatur & Digitale Visitenkarten Generator',
+          profile: 'Profil', company: 'Unternehmen', contact: 'Kontakt', social: 'Soziales', style: 'Design',
+          fullName: 'Vollständiger Name', jobTitle: 'Berufsbezeichnung', avatarUrl: 'Foto-URL / Avatar', pronouns: 'Pronomen',
+          companyName: 'Firmenname', department: 'Abteilung', website: 'Website', address: 'Büroadresse',
+          email: 'E-Mail-Adresse', phone: 'Telefon geschäftlich', mobile: 'Mobiltelefon', calendar: 'Buchungslink', disclaimer: 'Rechtshinweis',
+          copyRich: 'Signatur kopieren (Gmail / Outlook)', copyHtml: 'HTML kopieren', copyText: 'Reiner Text', downloadHtml: 'HTML herunterladen',
+          share: 'Teilen', livePreview: 'Live-Vorschau', exportJson: 'JSON exportieren', importJson: 'JSON importieren',
+          reset: 'Zurücksetzen', feedback: 'Feedback & Support', copied: 'In die Zwischenablage kopiert!', saved: 'Gespeichert'
+        },
+        pt: {
+          dir: 'ltr',
+          title: 'SignaCard',
+          subtitle: 'Criador de Assinaturas de E-mail e Cartões Digitais',
+          profile: 'Perfil', company: 'Empresa', contact: 'Contato', social: 'Redes', style: 'Estilo',
+          fullName: 'Nome Completo', jobTitle: 'Cargo / Função', avatarUrl: 'URL da Foto', pronouns: 'Pronomes',
+          companyName: 'Nome da Empresa', department: 'Departamento', website: 'Website', address: 'Endereço',
+          email: 'E-mail', phone: 'Telefone Fixo', mobile: 'Celular / WhatsApp', calendar: 'Link de Reuniões', disclaimer: 'Aviso Legal',
+          copyRich: 'Copiar Assinatura (Gmail / Outlook)', copyHtml: 'Copiar HTML', copyText: 'Texto Simples', downloadHtml: 'Baixar HTML',
+          share: 'Compartilhar', livePreview: 'Visualização em Tempo Real', exportJson: 'Exportar JSON', importJson: 'Importar JSON',
+          reset: 'Redefinir', feedback: 'Suporte e Feedback', copied: 'Copiado para a área de transferência!', saved: 'Salvo'
+        },
+        ru: {
+          dir: 'ltr',
+          title: 'SignaCard',
+          subtitle: 'Генератор подписей для почты и цифровых визиток',
+          profile: 'Профиль', company: 'Компания', contact: 'Контакты', social: 'Соцсети', style: 'Дизайн',
+          fullName: 'Полное имя', jobTitle: 'Должность', avatarUrl: 'URL фото / аватара', pronouns: 'Местоимения',
+          companyName: 'Название компании', department: 'Отдел', website: 'Сайт', address: 'Адрес офиса',
+          email: 'Эл. почта', phone: 'Рабочий телефон', mobile: 'Мобильный телефон', calendar: 'Ссылка на календарь', disclaimer: 'Правовая оговорка',
+          copyRich: 'Копировать подпись (Gmail/Outlook)', copyHtml: 'Копировать HTML', copyText: 'Обычный текст', downloadHtml: 'Скачать HTML',
+          share: 'Поделиться', livePreview: 'Предпросмотр', exportJson: 'Экспорт JSON', importJson: 'Импорт JSON',
+          reset: 'Сбросить', feedback: 'Отзывы и поддержка', copied: 'Скопировано в буфер обмена!', saved: 'Сохранено'
+        },
+        it: {
+          dir: 'ltr',
+          title: 'SignaCard',
+          subtitle: 'Creatore di Firme Email e Biglietti da Visita Digitali',
+          profile: 'Profilo', company: 'Azienda', contact: 'Contatto', social: 'Social', style: 'Stile',
+          fullName: 'Nome e Cognome', jobTitle: 'Qualifica / Ruolo', avatarUrl: 'URL Foto / Avatar', pronouns: 'Pronomi',
+          companyName: 'Nome Azienda', department: 'Reparto', website: 'Sito Web', address: 'Indirizzo Sede',
+          email: 'Indirizzo Email', phone: 'Telefono Ufficio', mobile: 'Cellulare', calendar: 'Link Prenotazioni', disclaimer: 'Nota Legale',
+          copyRich: 'Copia Firma (Gmail / Outlook)', copyHtml: 'Copia HTML', copyText: 'Testo Semplice', downloadHtml: 'Scarica HTML',
+          share: 'Condividi', livePreview: 'Anteprima in Tempo Reale', exportJson: 'Esporta JSON', importJson: 'Importa JSON',
+          reset: 'Reimposta', feedback: 'Feedback e Supporto', copied: 'Copiato negli appunti!', saved: 'Salvato'
+        },
+        vi: {
+          dir: 'ltr',
+          title: 'SignaCard',
+          subtitle: 'Tạo chữ ký email & danh thiếp kỹ thuật số',
+          profile: 'Hồ sơ', company: 'Công ty', contact: 'Liên hệ', social: 'Mạng xã hội', style: 'Giao diện',
+          fullName: 'Họ và tên', jobTitle: 'Chức danh', avatarUrl: 'URL Ảnh đại diện', pronouns: 'Danh xưng',
+          companyName: 'Tên công ty', department: 'Phòng ban', website: 'Trang web', address: 'Địa chỉ văn phòng',
+          email: 'Email', phone: 'Điện thoại cơ quan', mobile: 'Di động', calendar: 'Liên kết lịch hẹn', disclaimer: 'Tuyên bố miễn trừ',
+          copyRich: 'Sao chép chữ ký (Gmail / Outlook)', copyHtml: 'Sao chép HTML', copyText: 'Văn bản thuần', downloadHtml: 'Tải HTML',
+          share: 'Chia sẻ', livePreview: 'Xem trước trực tiếp', exportJson: 'Xuất JSON', importJson: 'Nhập JSON',
+          reset: 'Đặt lại', feedback: 'Góp ý & Hỗ trợ', copied: 'Đã sao chép vào bộ nhớ tạm!', saved: 'Đã lưu'
+        },
+        th: {
+          dir: 'ltr',
+          title: 'SignaCard',
+          subtitle: 'เครื่องมือสร้างลายเซ็นอีเมลและนามบัตรดิจิทัล',
+          profile: 'ข้อมูลส่วนตัว', company: 'บริษัท', contact: 'ติดต่อ', social: 'โซเชียล', style: 'สไตล์',
+          fullName: 'ชื่อ-นามสกุล', jobTitle: 'ตำแหน่ง', avatarUrl: 'URL รูปภาพโปรไฟล์', pronouns: 'คำสรรพนาม',
+          companyName: 'ชื่อบริษัท', department: 'แผนก', website: 'เว็บไซต์', address: 'ที่อยู่สำนักงาน',
+          email: 'อีเมล', phone: 'เบอร์โทรศัพท์ที่ทำงาน', mobile: 'เบอร์มือถือ', calendar: 'ลิงก์นัดหมาย', disclaimer: 'ข้อความปฏิเสธความรับผิดชอบ',
+          copyRich: 'คัดลอกลายเซ็น (Gmail / Outlook)', copyHtml: 'คัดลอกโค้ด HTML', copyText: 'ข้อความธรรมดา', downloadHtml: 'ดาวน์โหลด HTML',
+          share: 'แชร์ลิงก์', livePreview: 'ตัวอย่างแบบเรียลไทม์', exportJson: 'ส่งออก JSON', importJson: 'นำเข้า JSON',
+          reset: 'รีเซ็ต', feedback: 'ข้อเสนอแนะ & สนับสนุน', copied: 'คัดลอกไปยังคลิปบอร์ดแล้ว!', saved: 'บันทึกแล้ว'
+        },
+        id: {
+          dir: 'ltr',
+          title: 'SignaCard',
+          subtitle: 'Pembuat Tanda Tangan Email & Kartu Bisnis Digital',
+          profile: 'Profil', company: 'Perusahaan', contact: 'Kontak', social: 'Sosial', style: 'Gaya',
+          fullName: 'Nama Lengkap', jobTitle: 'Jabatan', avatarUrl: 'URL Foto Profil', pronouns: 'Kata Ganti',
+          companyName: 'Nama Perusahaan', department: 'Departemen', website: 'Situs Web', address: 'Alamat Kantor',
+          email: 'Alamat Email', phone: 'Telepon Kantor', mobile: 'Ponsel / WhatsApp', calendar: 'Tautan Jadwal', disclaimer: 'Penafian Hukum',
+          copyRich: 'Salin Tanda Tangan (Gmail/Outlook)', copyHtml: 'Salin HTML', copyText: 'Teks Biasa', downloadHtml: 'Unduh HTML',
+          share: 'Bagikan', livePreview: 'Pratinjau Langsung', exportJson: 'Ekspor JSON', importJson: 'Impor JSON',
+          reset: 'Reset', feedback: 'Umpan Balik & Bantuan', copied: 'Disalin ke papan klip!', saved: 'Tersimpan'
+        },
+        tr: {
+          dir: 'ltr',
+          title: 'SignaCard',
+          subtitle: 'E-posta İmzası ve Dijital Kartvizit Oluşturucu',
+          profile: 'Profil', company: 'Şirket', contact: 'İletişim', social: 'Sosyal', style: 'Tasarım',
+          fullName: 'Ad Soyad', jobTitle: 'Ünvan / Pozisyon', avatarUrl: 'Fotoğraf URL', pronouns: 'Zamirler',
+          companyName: 'Şirket Adı', department: 'Departman', website: 'Web Sitesi', address: 'Ofis Adresi',
+          email: 'E-posta Adresi', phone: 'İş Telefonu', mobile: 'Cep Telefonu', calendar: 'Randevu Bağlantısı', disclaimer: 'Yasal Uyarı',
+          copyRich: 'İmzayı Kopyala (Gmail / Outlook)', copyHtml: 'HTML Kopyala', copyText: 'Düz Metin', downloadHtml: 'HTML İndir',
+          share: 'Paylaş', livePreview: 'Canlı Önizleme', exportJson: 'JSON Dışa Aktar', importJson: 'JSON İçe Aktar',
+          reset: 'Sıfırla', feedback: 'Geri Bildirim & Destek', copied: 'Panoya kopyalandı!', saved: 'Kaydedildi'
+        },
+        pl: {
+          dir: 'ltr',
+          title: 'SignaCard',
+          subtitle: 'Kreator Podpisów Email i Cyfrowych Wizytówek',
+          profile: 'Profil', company: 'Firma', contact: 'Kontakt', social: 'Społeczności', style: 'Styl',
+          fullName: 'Imię i Nazwisko', jobTitle: 'Stanowisko', avatarUrl: 'URL Zdjęcia', pronouns: 'Zaimki',
+          companyName: 'Nazwa Firmy', department: 'Dział', website: 'Strona WWW', address: 'Adres Biura',
+          email: 'Adres E-mail', phone: 'Telefon Służbowy', mobile: 'Telefon Komórkowy', calendar: 'Link do Kalendarza', disclaimer: 'Nota Prawna',
+          copyRich: 'Kopiuj Podpis (Gmail / Outlook)', copyHtml: 'Kopiuj HTML', copyText: 'Zwykły Tekst', downloadHtml: 'Pobierz HTML',
+          share: 'Udostępnij', livePreview: 'Podgląd na Żywo', exportJson: 'Eksportuj JSON', importJson: 'Importuj JSON',
+          reset: 'Resetuj', feedback: 'Opinie i Pomoc', copied: 'Skopiowano do schowka!', saved: 'Zapisano'
+        },
+        nl: {
+          dir: 'ltr',
+          title: 'SignaCard',
+          subtitle: 'E-mail Handtekening & Digitale Visitekaartjes Maker',
+          profile: 'Profiel', company: 'Bedrijf', contact: 'Contact', social: 'Sociaal', style: 'Stijl',
+          fullName: 'Volledige Naam', jobTitle: 'Functietitel', avatarUrl: 'Foto URL / Avatar', pronouns: 'Voornaamwoorden',
+          companyName: 'Bedrijfsnaam', department: 'Afdeling', website: 'Website', address: 'Kantooradres',
+          email: 'E-mailadres', phone: 'Telefoon Werk', mobile: 'Mobiel', calendar: 'Afsprakenlink', disclaimer: 'Disclaimer',
+          copyRich: 'Handtekening Kopiëren (Gmail / Outlook)', copyHtml: 'HTML Kopiëren', copyText: 'Platte Tekst', downloadHtml: 'Download HTML',
+          share: 'Delen', livePreview: 'Live Voorbeeld', exportJson: 'Exporteer JSON', importJson: 'Importeer JSON',
+          reset: 'Herstellen', feedback: 'Feedback & Support', copied: 'Gekopieerd naar klembord!', saved: 'Opgeslagen'
+        },
+        ar: {
+          dir: 'rtl',
+          title: 'SignaCard',
+          subtitle: 'منشئ توقيعات البريد الإلكتروني وبطاقات الأعمال الرقمية',
+          profile: 'الملف الشخصي', company: 'الشركة', contact: 'الاتصال', social: 'التواصل', style: 'المظهر',
+          fullName: 'الاسم الكامل', jobTitle: 'المسمى الوظيفي', avatarUrl: 'رابط الصورة الشخصية', pronouns: 'الضمائر',
+          companyName: 'اسم الشركة', department: 'القسم', website: 'الموقع الإلكتروني', address: 'عنوان المكتب',
+          email: 'البريد الإلكتروني', phone: 'هاتف العمل', mobile: 'الهاتف المحمول', calendar: 'رابط حجز المواعيد', disclaimer: 'إخلاء المسؤولية',
+          copyRich: 'نسخ التوقيع (Gmail / Outlook)', copyHtml: 'نسخ كود HTML', copyText: 'نص عادي', downloadHtml: 'تحميل HTML',
+          share: 'مشاركة', livePreview: 'معاينة حية', exportJson: 'تصدير JSON', importJson: 'استيراد JSON',
+          reset: 'إعادة ضبط', feedback: 'الآراء والدعم', copied: 'تم النسخ إلى الحافظة!', saved: 'تم الحفظ تلقائياً'
+        },
+        hi: {
+          dir: 'ltr',
+          title: 'SignaCard',
+          subtitle: 'ईमेल हस्ताक्षर और डिजिटल बिजनेस कार्ड निर्माता',
+          profile: 'प्रोफ़ाइल', company: 'कंपनी', contact: 'संपर्क', social: 'सोशल', style: 'डिज़ाइन',
+          fullName: 'पूरा नाम', jobTitle: 'पद / पदवी', avatarUrl: 'फ़ोटो यूआरएल', pronouns: 'सर्वनाम',
+          companyName: 'कंपनी का नाम', department: 'विभाग', website: 'वेबसाइट', address: 'कार्यालय का पता',
+          email: 'ईमेल पता', phone: 'कार्यालय फ़ोन', mobile: 'मोबाइल नंबर', calendar: 'मीटिंग बुकिंग लिंक', disclaimer: 'कानूनी अस्वीकरण',
+          copyRich: 'हस्ताक्षर कॉपी करें (Gmail / Outlook)', copyHtml: 'HTML कॉपी करें', copyText: 'सादा पाठ', downloadHtml: 'HTML डाउनलोड करें',
+          share: 'साझा करें', livePreview: 'लाइव पूर्वावलोकन', exportJson: 'JSON निर्यात करें', importJson: 'JSON आयात करें',
+          reset: 'रीसेट करें', feedback: 'प्रतिक्रिया और सहायता', copied: 'क्लिपबोर्ड पर कॉपी किया गया!', saved: 'सहेजा गया'
+        },
+        sv: {
+          dir: 'ltr',
+          title: 'SignaCard',
+          subtitle: 'Skapa e-postsignatur och digitalt visitkort',
+          profile: 'Profil', company: 'Företag', contact: 'Kontakt', social: 'Socialt', style: 'Stil',
+          fullName: 'Fullständigt Namn', jobTitle: 'Titel', avatarUrl: 'Foto / Avatar URL', pronouns: 'Pronomen',
+          companyName: 'Företagsnamn', department: 'Avdelning', website: 'Webbplats', address: 'Kontorsadress',
+          email: 'E-postadress', phone: 'Arbetstelefon', mobile: 'Mobiltelefon', calendar: 'Bokningslänk', disclaimer: 'Ansvarsfriskrivning',
+          copyRich: 'Kopiera Signatur (Gmail / Outlook)', copyHtml: 'Kopiera HTML', copyText: 'Ren Text', downloadHtml: 'Ladda ner HTML',
+          share: 'Dela', livePreview: 'Förhandsvisning', exportJson: 'Exportera JSON', importJson: 'Importera JSON',
+          reset: 'Återställ', feedback: 'Feedback och Support', copied: 'Kopierat till urklipp!', saved: 'Sparat'
+        },
+        uk: {
+          dir: 'ltr',
+          title: 'SignaCard',
+          subtitle: 'Генератор підписів електронної пошти та цифрових візиток',
+          profile: 'Профіль', company: 'Компанія', contact: 'Контакти', social: 'Соцмережі', style: 'Стиль',
+          fullName: 'Повне ім’я', jobTitle: 'Посада', avatarUrl: 'URL фото / аватара', pronouns: 'Займенники',
+          companyName: 'Назва компанії', department: 'Відділ', website: 'Вебсайт', address: 'Адреса офісу',
+          email: 'Електронна пошта', phone: 'Робочий телефон', mobile: 'Мобільний телефон', calendar: 'Посилання на зустріч', disclaimer: 'Правове застереження',
+          copyRich: 'Скопіювати підпис (Gmail/Outlook)', copyHtml: 'Скопіювати HTML', copyText: 'Звичайний текст', downloadHtml: 'Завантажити HTML',
+          share: 'Поділитися', livePreview: 'Живий попередній перегляд', exportJson: 'Експорт JSON', importJson: 'Імпорт JSON',
+          reset: 'Скинути', feedback: 'Відгуки та підтримка', copied: 'Скопійовано в буфер обміну!', saved: 'Збережено'
+        }
+      };
+
+      // Font Size I18n labels across 20 languages
+      const FONT_I18N = {
+        en: { size: 'Font Size', small: 'Small', medium: 'Medium', large: 'Large' },
+        ko: { size: '글꼴 크기', small: '작게', medium: '보통', large: '크게' },
+        ja: { size: 'フォントサイズ', small: '小', medium: '中', large: '大' },
+        zh: { size: '字体大小', small: '小', medium: '中', large: '大' },
+        es: { size: 'Tamaño de fuente', small: 'Pequeño', medium: 'Mediano', large: 'Grande' },
+        fr: { size: 'Taille de police', small: 'Petit', medium: 'Moyen', large: 'Grand' },
+        de: { size: 'Schriftgröße', small: 'Klein', medium: 'Mittel', large: 'Groß' },
+        pt: { size: 'Tamanho da fonte', small: 'Pequeno', medium: 'Médio', large: 'Grande' },
+        ru: { size: 'Размер шрифта', small: 'Мелкий', medium: 'Средний', large: 'Крупный' },
+        it: { size: 'Dimensione carattere', small: 'Piccolo', medium: 'Medio', large: 'Grande' },
+        vi: { size: 'Cỡ chữ', small: 'Nhỏ', medium: 'Vừa', large: 'Lớn' },
+        th: { size: 'ขนาดตัวอักษร', small: 'เล็ก', medium: 'กลาง', large: 'ใหญ่' },
+        id: { size: 'Ukuran font', small: 'Kecil', medium: 'Sedang', large: 'Besar' },
+        tr: { size: 'Yazı boyutu', small: 'Küçük', medium: 'Orta', large: 'Büyük' },
+        pl: { size: 'Rozmiar czcionki', small: 'Mały', medium: 'Średni', large: 'Duży' },
+        nl: { size: 'Lettergrootte', small: 'Klein', medium: 'Normaal', large: 'Groot' },
+        ar: { size: 'حجم الخط', small: 'صغير', medium: 'متوسط', large: 'كبير' },
+        hi: { size: 'फ़ॉन्ट आकार', small: 'छोटा', medium: 'मध्यम', large: 'बड़ा' },
+        sv: { size: 'Teckenstorlek', small: 'Liten', medium: 'Mellan', large: 'Stor' },
+        uk: { size: 'Розмір шрифту', small: 'Дрібний', medium: 'Середній', large: 'Великий' }
+      };
+
+      // Font size presets with CSS font-size properties for email clients & preview
+      const FONT_SIZE_MAP = {
+        small: {
+          base: '11px',
+          name: '14px',
+          titleLg: '15px',
+          title: '11px',
+          subtitle: '10px',
+          contact: '10px',
+          social: '10px',
+          btn: '10px',
+          pronoun: '10px',
+          disclaimer: '9px',
+          label: 'Small'
+        },
+        medium: {
+          base: '13px',
+          name: '16px',
+          titleLg: '18px',
+          title: '12px',
+          subtitle: '12px',
+          contact: '11px',
+          social: '11px',
+          btn: '11px',
+          pronoun: '11px',
+          disclaimer: '10px',
+          label: 'Medium'
+        },
+        large: {
+          base: '15px',
+          name: '19px',
+          titleLg: '21px',
+          title: '14px',
+          subtitle: '14px',
+          contact: '12px',
+          social: '12px',
+          btn: '12px',
+          pronoun: '12px',
+          disclaimer: '11px',
+          label: 'Large'
+        }
+      };
+
+      // Default State
+      const DEFAULT_STATE = {
+        lang: 'en',
+        theme: 'dark',
+        template: 'modern',
+        accentColor: '#4f46e5',
+        fontFamily: 'Arial, Helvetica, sans-serif',
+        fontSize: 'medium',
+        fullName: 'Alexander Wright',
+        jobTitle: 'Principal Solutions Architect',
+        pronouns: 'he/him',
+        avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80',
+        company: 'Apex Technologies',
+        department: 'Cloud & System Engineering',
+        website: 'https://apextech.io',
+        address: '500 Howard St, Suite 400, San Francisco, CA 94105',
+        email: 'alexander.wright@apextech.io',
+        phone: '+1 (415) 890-2345',
+        mobile: '+1 (415) 789-0123',
+        calendar: 'https://cal.com/alexander',
+        disclaimer: 'The content of this email is confidential and intended solely for the recipient. If received in error, please notify sender immediately.',
+        linkedin: 'https://linkedin.com/in/alexander-wright',
+        twitter: 'https://x.com/alexwright',
+        github: 'https://github.com/alexander-wright',
+        instagram: ''
+      };
+
+      // Working state
+      let state = Object.assign({}, DEFAULT_STATE);
+
+      // LocalStorage Key
+      const STORAGE_KEY = 'signacard_state_v1';
+
+      // Elements cache
+      const el = {
+        body: document.getElementById('app-body'),
+        langSelect: document.getElementById('language-select'),
+        themeToggle: document.getElementById('theme-toggle-btn'),
+        themeDarkIcon: document.getElementById('theme-icon-dark'),
+        themeLightIcon: document.getElementById('theme-icon-light'),
+        previewTarget: document.getElementById('signature-render-target'),
+        previewWrapper: document.getElementById('preview-wrapper'),
+        toast: document.getElementById('toast-notification'),
+        toastMsg: document.getElementById('toast-message'),
+        toastIcon: document.getElementById('toast-icon'),
+        jsonModal: document.getElementById('json-modal'),
+        jsonTextarea: document.getElementById('json-textarea'),
+        feedbackModal: document.getElementById('feedback-modal'),
+        fontSelect: document.getElementById('font-family-select'),
+        fontSizeSlider: document.getElementById('font-size-slider'),
+        fontSizeBadge: document.getElementById('font-size-badge')
+      };
+
+      // Toast Notification System (Rule 16)
+      let toastTimer = null;
+      function showToast(message, type = 'success') {
+        if (toastTimer) clearTimeout(toastTimer);
+        
+        el.toastMsg.textContent = message;
+        
+        if (type === 'success') {
+          el.toast.className = 'fixed bottom-5 right-5 z-50 transform translate-y-0 opacity-100 pointer-events-auto transition-all duration-300 ease-out flex items-center gap-2.5 px-4 py-3 rounded-xl shadow-2xl border text-xs sm:text-sm font-medium bg-slate-900/95 border-emerald-500/50 text-emerald-300';
+          el.toastIcon.innerHTML = '<svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>';
+        } else if (type === 'error') {
+          el.toast.className = 'fixed bottom-5 right-5 z-50 transform translate-y-0 opacity-100 pointer-events-auto transition-all duration-300 ease-out flex items-center gap-2.5 px-4 py-3 rounded-xl shadow-2xl border text-xs sm:text-sm font-medium bg-slate-900/95 border-rose-500/50 text-rose-300';
+          el.toastIcon.innerHTML = '<svg class="w-4 h-4 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>';
+        } else {
+          el.toast.className = 'fixed bottom-5 right-5 z-50 transform translate-y-0 opacity-100 pointer-events-auto transition-all duration-300 ease-out flex items-center gap-2.5 px-4 py-3 rounded-xl shadow-2xl border text-xs sm:text-sm font-medium bg-slate-900/95 border-indigo-500/50 text-indigo-300';
+          el.toastIcon.innerHTML = '<svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>';
+        }
+
+        toastTimer = setTimeout(() => {
+          el.toast.classList.add('translate-y-16', 'opacity-0', 'pointer-events-none');
+        }, 3200);
+      }
+
+      // Safe Initials Monogram Generator (Pure JS Fallback - Rule 13)
+      function getInitialsSVG(name, bgColor) {
+        const parts = (name || 'Alexander Wright').trim().split(/\s+/);
+        let initials = '';
+        if (parts.length > 1) {
+          initials = (parts[0][0] || '') + (parts[parts.length - 1][0] || '');
+        } else if (parts[0]) {
+          initials = parts[0].substring(0, 2);
+        }
+        initials = initials.toUpperCase() || 'SC';
+        return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96"><rect width="96" height="96" rx="48" fill="${encodeURIComponent(bgColor)}"/><text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="34" font-weight="700" fill="%23ffffff">${initials}</text></svg>`;
+      }
+
+      // Pure JS QR Code SVG Data URI for Digital Business Card (Rule 13)
+      function getQrSVG(url, color) {
+        // High fidelity visual QR code representation in inline SVG
+        return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="76" height="76" viewBox="0 0 25 25"><rect width="25" height="25" fill="%23ffffff"/><path d="M2 2h7v7H2zm2 2v3h3V4zm9-2h7v7h-7zm2 2v3h3V4zm-13 9h7v7H2zm2 2v3h3v-3zm11 0h2v2h-2zm4 0h2v2h-2zm-4 4h2v2h-2zm4 0h2v2h-2zm-6-2h2v2h-2zm4-4h2v2h-2zm-2-2h4v2h-4zm-8-5h2v2H7zm4 0h2v2h-2zm0 4h2v2h-2zm2 2h2v2h-2z" fill="${encodeURIComponent(color)}"/></svg>`;
+      }
+
+      // Render Clean Table-Based Email HTML (Rule 4 & 13)
+      function generateSignatureHTML(s) {
+        const font = s.fontFamily || 'Arial, Helvetica, sans-serif';
+        const color = s.accentColor || '#4f46e5';
+        const avatarSrc = s.avatarUrl ? s.avatarUrl : getInitialsSVG(s.fullName, color);
+        const sizes = FONT_SIZE_MAP[s.fontSize] || FONT_SIZE_MAP.medium;
+
+        // Social Icons Row HTML
+        const socialItems = [];
+        if (s.linkedin) socialItems.push(`<a href="${s.linkedin}" target="_blank" style="text-decoration:none;display:inline-block;margin-right:8px;"><span style="display:inline-block;padding:3px 7px;background-color:${color}15;color:${color};font-size:${sizes.social};font-family:${font};font-weight:600;border-radius:4px;">LinkedIn</span></a>`);
+        if (s.twitter) socialItems.push(`<a href="${s.twitter}" target="_blank" style="text-decoration:none;display:inline-block;margin-right:8px;"><span style="display:inline-block;padding:3px 7px;background-color:${color}15;color:${color};font-size:${sizes.social};font-family:${font};font-weight:600;border-radius:4px;">X</span></a>`);
+        if (s.github) socialItems.push(`<a href="${s.github}" target="_blank" style="text-decoration:none;display:inline-block;margin-right:8px;"><span style="display:inline-block;padding:3px 7px;background-color:${color}15;color:${color};font-size:${sizes.social};font-family:${font};font-weight:600;border-radius:4px;">GitHub</span></a>`);
+        if (s.instagram) socialItems.push(`<a href="${s.instagram}" target="_blank" style="text-decoration:none;display:inline-block;margin-right:8px;"><span style="display:inline-block;padding:3px 7px;background-color:${color}15;color:${color};font-size:${sizes.social};font-family:${font};font-weight:600;border-radius:4px;">Instagram</span></a>`);
+        const socialRow = socialItems.length > 0 ? `<div style="margin-top:8px;">${socialItems.join('')}</div>` : '';
+
+        // Contact info lines
+        const contactCells = [];
+        if (s.email) contactCells.push(`<span style="color:#64748b;">E:</span> <a href="mailto:${s.email}" style="color:${color};text-decoration:none;font-weight:500;">${s.email}</a>`);
+        if (s.phone) contactCells.push(`<span style="color:#64748b;">P:</span> <a href="tel:${s.phone}" style="color:#334155;text-decoration:none;">${s.phone}</a>`);
+        if (s.mobile) contactCells.push(`<span style="color:#64748b;">M:</span> <a href="tel:${s.mobile}" style="color:#334155;text-decoration:none;">${s.mobile}</a>`);
+        if (s.website) contactCells.push(`<span style="color:#64748b;">W:</span> <a href="${s.website}" target="_blank" style="color:${color};text-decoration:none;font-weight:500;">${s.website.replace(/^https?:\/\//, '')}</a>`);
+
+        const calendarBtn = s.calendar ? `
+          <div style="margin-top:8px;">
+            <a href="${s.calendar}" target="_blank" style="display:inline-block;padding:5px 12px;background-color:${color};color:#ffffff;font-size:${sizes.btn};font-family:${font};font-weight:600;text-decoration:none;border-radius:6px;">
+              Book a Meeting &rarr;
+            </a>
+          </div>` : '';
+
+        const disclaimerBlock = s.disclaimer ? `
+          <div style="margin-top:10px;padding-top:8px;border-top:1px solid #e2e8f0;font-size:${sizes.disclaimer};color:#94a3b8;line-height:1.4;font-family:${font};">
+            ${s.disclaimer}
+          </div>` : '';
+
+        // Template 1: Modern Minimal (Default)
+        if (s.template === 'modern') {
+          return `
+          <table cellpadding="0" cellspacing="0" border="0" style="font-family:${font};font-size:${sizes.base};line-height:1.4;color:#1e293b;max-width:540px;">
+            <tr>
+              <td style="vertical-align:top;padding-right:16px;">
+                <img src="${avatarSrc}" alt="${s.fullName}" width="72" height="72" style="display:block;width:72px;height:72px;border-radius:50%;object-fit:cover;border:2px solid ${color};" />
+              </td>
+              <td style="vertical-align:top;border-left:2px solid ${color};padding-left:16px;">
+                <div style="font-size:${sizes.name};font-weight:700;color:#0f172a;line-height:1.2;">
+                  ${s.fullName} ${s.pronouns ? `<span style="font-size:${sizes.pronoun};font-weight:normal;color:#64748b;">(${s.pronouns})</span>` : ''}
+                </div>
+                <div style="font-size:${sizes.title};font-weight:600;color:${color};margin-top:2px;">
+                  ${s.jobTitle}${s.department ? ` &bull; ${s.department}` : ''}
+                </div>
+                <div style="font-size:${sizes.subtitle};color:#475569;margin-top:2px;font-weight:500;">
+                  ${s.company}
+                </div>
+                <div style="font-size:${sizes.contact};color:#64748b;margin-top:6px;line-height:1.5;">
+                  ${contactCells.join(' &nbsp;|&nbsp; ')}
+                </div>
+                ${s.address ? `<div style="font-size:${sizes.contact};color:#64748b;margin-top:2px;">${s.address}</div>` : ''}
+                ${socialRow}
+                ${calendarBtn}
+              </td>
+            </tr>
+            ${disclaimerBlock ? `<tr><td colspan="2">${disclaimerBlock}</td></tr>` : ''}
+          </table>`;
+        }
+
+        // Template 2: Corporate Crisp
+        if (s.template === 'corporate') {
+          return `
+          <table cellpadding="0" cellspacing="0" border="0" style="font-family:${font};font-size:${sizes.base};line-height:1.4;color:#334155;max-width:560px;">
+            <tr>
+              <td colspan="2" style="border-bottom:2px solid ${color};padding-bottom:6px;">
+                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                  <tr>
+                    <td style="vertical-align:bottom;">
+                      <div style="font-size:${sizes.titleLg};font-weight:700;color:#0f172a;letter-spacing:-0.2px;">${s.fullName}</div>
+                      <div style="font-size:${sizes.title};color:${color};font-weight:600;">${s.jobTitle} &bull; ${s.company}</div>
+                    </td>
+                    <td style="text-align:right;vertical-align:bottom;">
+                      <img src="${avatarSrc}" alt="${s.fullName}" width="54" height="54" style="display:inline-block;width:54px;height:54px;border-radius:8px;object-fit:cover;" />
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding-top:8px;vertical-align:top;font-size:${sizes.contact};line-height:1.6;">
+                ${s.email ? `<div><strong>Email:</strong> <a href="mailto:${s.email}" style="color:${color};text-decoration:none;">${s.email}</a></div>` : ''}
+                ${s.phone ? `<div><strong>Direct:</strong> ${s.phone}</div>` : ''}
+                ${s.mobile ? `<div><strong>Mobile:</strong> ${s.mobile}</div>` : ''}
+              </td>
+              <td style="padding-top:8px;vertical-align:top;font-size:${sizes.contact};line-height:1.6;padding-left:16px;">
+                ${s.website ? `<div><strong>Web:</strong> <a href="${s.website}" style="color:${color};text-decoration:none;">${s.website.replace(/^https?:\/\//, '')}</a></div>` : ''}
+                ${s.address ? `<div><strong>Office:</strong> ${s.address}</div>` : ''}
+                ${calendarBtn}
+              </td>
+            </tr>
+            ${socialRow ? `<tr><td colspan="2" style="padding-top:6px;">${socialRow}</td></tr>` : ''}
+            ${disclaimerBlock ? `<tr><td colspan="2">${disclaimerBlock}</td></tr>` : ''}
+          </table>`;
+        }
+
+        // Template 3: Compact Line (For Quick Replies)
+        if (s.template === 'compact') {
+          return `
+          <table cellpadding="0" cellspacing="0" border="0" style="font-family:${font};font-size:${sizes.base};line-height:1.4;color:#1e293b;max-width:540px;">
+            <tr>
+              <td style="vertical-align:middle;padding-right:10px;">
+                <img src="${avatarSrc}" alt="${s.fullName}" width="42" height="42" style="display:block;width:42px;height:42px;border-radius:50%;object-fit:cover;border:1.5px solid ${color};" />
+              </td>
+              <td style="vertical-align:middle;">
+                <div>
+                  <strong style="color:#0f172a;font-size:${sizes.name};">${s.fullName}</strong>
+                  <span style="color:#94a3b8;">&nbsp;|&nbsp;</span>
+                  <span style="color:${color};font-weight:600;font-size:${sizes.title};">${s.jobTitle}</span>
+                  <span style="color:#94a3b8;">&nbsp;|&nbsp;</span>
+                  <span style="color:#475569;font-size:${sizes.subtitle};">${s.company}</span>
+                </div>
+                <div style="font-size:${sizes.contact};color:#64748b;margin-top:2px;">
+                  ${contactCells.join(' &bull; ')}
+                </div>
+              </td>
+            </tr>
+            ${disclaimerBlock ? `<tr><td colspan="2">${disclaimerBlock}</td></tr>` : ''}
+          </table>`;
+        }
+
+        // Template 4: Digital Business Card
+        if (s.template === 'card') {
+          const qrSrc = getQrSVG(s.website || s.email || 'https://example.com', color);
+          return `
+          <table cellpadding="0" cellspacing="0" border="0" style="font-family:${font};font-size:${sizes.base};line-height:1.4;color:#1e293b;width:100%;max-width:440px;background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.06);">
+            <tr>
+              <td style="background-color:${color};height:6px;" colspan="2"></td>
+            </tr>
+            <tr>
+              <td style="padding:16px 12px 14px 16px;vertical-align:top;">
+                <div style="display:flex;align-items:center;gap:12px;">
+                  <img src="${avatarSrc}" alt="${s.fullName}" width="58" height="58" style="display:block;width:58px;height:58px;border-radius:50%;object-fit:cover;border:2px solid #ffffff;box-shadow:0 2px 6px rgba(0,0,0,0.15);" />
+                  <div style="margin-left:12px;">
+                    <div style="font-size:${sizes.name};font-weight:700;color:#0f172a;line-height:1.2;">${s.fullName}</div>
+                    <div style="font-size:${sizes.title};font-weight:600;color:${color};margin-top:2px;">${s.jobTitle}</div>
+                    <div style="font-size:${sizes.subtitle};color:#64748b;">${s.company}</div>
+                  </div>
+                </div>
+                <div style="font-size:${sizes.contact};color:#475569;margin-top:12px;line-height:1.6;">
+                  ${s.email ? `<div><strong>E:</strong> <a href="mailto:${s.email}" style="color:${color};text-decoration:none;">${s.email}</a></div>` : ''}
+                  ${s.phone ? `<div><strong>P:</strong> ${s.phone}</div>` : ''}
+                  ${s.website ? `<div><strong>W:</strong> ${s.website.replace(/^https?:\/\//, '')}</div>` : ''}
+                </div>
+                ${socialRow}
+              </td>
+              <td style="padding:16px 16px 14px 4px;vertical-align:middle;text-align:right;width:80px;">
+                <img src="${qrSrc}" width="72" height="72" alt="QR Code" style="display:inline-block;width:72px;height:72px;border-radius:6px;border:1px solid #e2e8f0;" />
+                <div style="font-size:${sizes.disclaimer};color:#94a3b8;margin-top:4px;text-align:center;">Scan Contact</div>
+              </td>
+            </tr>
+            ${calendarBtn ? `<tr><td colspan="2" style="padding:0 16px 12px 16px;">${calendarBtn}</td></tr>` : ''}
+          </table>`;
+        }
+
+        // Template 5: Creative Accent
+        return `
+        <table cellpadding="0" cellspacing="0" border="0" style="font-family:${font};font-size:${sizes.base};line-height:1.4;color:#1e293b;max-width:540px;">
+          <tr>
+            <td style="width:6px;background-color:${color};border-radius:4px;"></td>
+            <td style="padding-left:14px;vertical-align:top;">
+              <table cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="vertical-align:middle;padding-right:12px;">
+                    <img src="${avatarSrc}" alt="${s.fullName}" width="60" height="60" style="display:block;width:60px;height:60px;border-radius:12px;object-fit:cover;" />
+                  </td>
+                  <td style="vertical-align:middle;">
+                    <div style="font-size:${sizes.name};font-weight:700;color:#0f172a;">${s.fullName}</div>
+                    <div style="display:inline-block;background-color:${color}15;color:${color};padding:2px 6px;border-radius:4px;font-size:${sizes.title};font-weight:700;margin-top:2px;">
+                      ${s.jobTitle}
+                    </div>
+                    <div style="font-size:${sizes.subtitle};color:#64748b;margin-top:2px;">${s.company}</div>
+                  </td>
+                </tr>
+              </table>
+              <div style="font-size:${sizes.contact};color:#475569;margin-top:8px;line-height:1.5;">
+                ${contactCells.join(' &bull; ')}
+              </div>
+              ${socialRow}
+              ${calendarBtn}
+            </td>
+          </tr>
+          ${disclaimerBlock ? `<tr><td colspan="2">${disclaimerBlock}</td></tr>` : ''}
+        </table>`;
+      }
+
+      // Render Plain Text Fallback
+      function generatePlainText(s) {
+        let txt = `${s.fullName}\n${s.jobTitle} | ${s.company}\n`;
+        if (s.email) txt += `Email: ${s.email}\n`;
+        if (s.phone) txt += `Phone: ${s.phone}\n`;
+        if (s.mobile) txt += `Mobile: ${s.mobile}\n`;
+        if (s.website) txt += `Website: ${s.website}\n`;
+        if (s.address) txt += `Address: ${s.address}\n`;
+        if (s.calendar) txt += `Book a call: ${s.calendar}\n`;
+        return txt.trim();
+      }
+
+      // Generate Contact vCard string (.vcf)
+      function generateVCard(s) {
+        const names = (s.fullName || 'Contact').trim().split(/\s+/);
+        const lastName = names.length > 1 ? names.pop() : '';
+        const firstName = names.join(' ');
+        return [
+          'BEGIN:VCARD',
+          'VERSION:3.0',
+          `FN:${s.fullName}`,
+          `N:${lastName};${firstName};;;`,
+          `ORG:${s.company};${s.department || ''}`,
+          `TITLE:${s.jobTitle}`,
+          `EMAIL;TYPE=INTERNET,WORK:${s.email}`,
+          `TEL;TYPE=WORK,VOICE:${s.phone}`,
+          `TEL;TYPE=CELL,VOICE:${s.mobile}`,
+          `ADR;TYPE=WORK:;;${s.address};;;;`,
+          `URL:${s.website}`,
+          'END:VCARD'
+        ].join('\r\n');
+      }
+
+      // Update Live UI Preview
+      function updatePreview() {
+        const html = generateSignatureHTML(state);
+        el.previewTarget.innerHTML = html;
+        saveState();
+        updateHash();
+      }
+
+      // Sync font size slider and badge with state
+      function syncFontSizeUI() {
+        const sizeKey = state.fontSize || 'medium';
+        const numVal = sizeKey === 'small' ? '1' : (sizeKey === 'large' ? '3' : '2');
+        if (el.fontSizeSlider) el.fontSizeSlider.value = numVal;
+
+        const langDict = FONT_I18N[state.lang] || FONT_I18N.en;
+        const localizedLabel = langDict[sizeKey] || (sizeKey.charAt(0).toUpperCase() + sizeKey.slice(1));
+        if (el.fontSizeBadge) el.fontSizeBadge.textContent = localizedLabel;
+      }
+
+      function setFontSize(newSize) {
+        state.fontSize = newSize;
+        syncFontSizeUI();
+        updatePreview();
+      }
+
+      // Sync form fields to state
+      function bindInputs() {
+        const mapping = [
+          ['field-fullName', 'fullName'],
+          ['field-jobTitle', 'jobTitle'],
+          ['field-pronouns', 'pronouns'],
+          ['field-avatarUrl', 'avatarUrl'],
+          ['field-company', 'company'],
+          ['field-department', 'department'],
+          ['field-website', 'website'],
+          ['field-address', 'address'],
+          ['field-email', 'email'],
+          ['field-phone', 'phone'],
+          ['field-mobile', 'mobile'],
+          ['field-calendar', 'calendar'],
+          ['field-disclaimer', 'disclaimer'],
+          ['field-linkedin', 'linkedin'],
+          ['field-twitter', 'twitter'],
+          ['field-github', 'github'],
+          ['field-instagram', 'instagram']
+        ];
+
+        mapping.forEach(([inputId, stateProp]) => {
+          const input = document.getElementById(inputId);
+          if (input) {
+            input.value = state[stateProp] || '';
+            input.addEventListener('input', (e) => {
+              state[stateProp] = e.target.value;
+              updatePreview();
+            });
+          }
+        });
+
+        if (el.fontSelect) {
+          el.fontSelect.value = state.fontFamily;
+          el.fontSelect.addEventListener('change', (e) => {
+            state.fontFamily = e.target.value;
+            updatePreview();
+          });
+        }
+
+        syncFontSizeUI();
+      }
+
+      // LocalStorage Persistence (Rule 3)
+      function saveState() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        } catch (err) {
+          console.warn('Storage save failed:', err);
+        }
+      }
+
+      function loadSavedState() {
+        try {
+          // Check URL Hash first (Rule 12 - shareable state priority)
+          const hash = window.location.hash.replace(/^#/, '');
+          if (hash.startsWith('data=')) {
+            const encoded = hash.slice(5);
+            const decoded = JSON.parse(decodeURIComponent(escape(atob(encoded))));
+            state = Object.assign({}, DEFAULT_STATE, decoded);
+            return;
+          }
+
+          // Otherwise restore from LocalStorage
+          const saved = localStorage.getItem(STORAGE_KEY);
+          if (saved) {
+            state = Object.assign({}, DEFAULT_STATE, JSON.parse(saved));
+          }
+        } catch (err) {
+          console.warn('State restore failed:', err);
+        }
+      }
+
+      // Shareable State in URL Hash (Rule 12)
+      function updateHash() {
+        try {
+          const minimal = Object.assign({}, state);
+          const serialized = btoa(unescape(encodeURIComponent(JSON.stringify(minimal))));
+          history.replaceState(null, '', `#data=${serialized}`);
+        } catch (e) {
+          // Fail silently if URL encoding exceeds browser limit
+        }
+      }
+
+      // Copy Formatted Signature (Rich HTML + Text for Gmail/Outlook - Rule 4)
+      async function copyRichSignature() {
+        const rawHTML = generateSignatureHTML(state);
+        const plainText = generatePlainText(state);
+
+        try {
+          if (navigator.clipboard && window.ClipboardItem) {
+            const blobHTML = new Blob([rawHTML], { type: 'text/html' });
+            const blobText = new Blob([plainText], { type: 'text/plain' });
+            await navigator.clipboard.write([
+              new ClipboardItem({
+                'text/html': blobHTML,
+                'text/plain': blobText
+              })
+            ]);
+            showToast(I18N[state.lang].copied + ' Ready to paste in Gmail / Outlook', 'success');
+            return;
+          }
+        } catch (err) {
+          console.warn('ClipboardItem API failed, using fallback selection execCommand');
+        }
+
+        // Robust Fallback using DOM range selection
+        try {
+          const container = document.createElement('div');
+          container.innerHTML = rawHTML;
+          container.style.position = 'fixed';
+          container.style.left = '-9999px';
+          container.style.top = '0';
+          document.body.appendChild(container);
+
+          const range = document.createRange();
+          range.selectNodeContents(container);
+          const sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(range);
+          document.execCommand('copy');
+          sel.removeAllRanges();
+          document.body.removeChild(container);
+
+          showToast(I18N[state.lang].copied, 'success');
+        } catch (e) {
+          showToast('Failed to copy. Please manually copy from preview.', 'error');
+        }
+      }
+
+      // Copy Raw HTML String
+      function copyRawHTML() {
+        const rawHTML = generateSignatureHTML(state);
+        copyStringToClipboard(rawHTML, 'HTML code copied to clipboard!');
+      }
+
+      // Copy Plain Text String
+      function copyPlainText() {
+        const txt = generatePlainText(state);
+        copyStringToClipboard(txt, 'Plain text copied to clipboard!');
+      }
+
+      // Helper String Clipboard Copy
+      function copyStringToClipboard(str, successMsg) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(str).then(() => {
+            showToast(successMsg, 'success');
+          }).catch(() => {
+            fallbackTextCopy(str, successMsg);
+          });
+        } else {
+          fallbackTextCopy(str, successMsg);
+        }
+      }
+
+      function fallbackTextCopy(text, msg) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast(msg, 'success');
+      }
+
+      // Download Standalone .html File
+      function downloadHTML() {
+        const htmlContent = `<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>${state.fullName} - Signature</title></head>
+<body style="margin:20px;font-family:sans-serif;">
+${generateSignatureHTML(state)}
+</body>
+</html>`;
+        const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+        triggerDownload(blob, `signature-${state.fullName.toLowerCase().replace(/\s+/g, '-')}.html`);
+        showToast('HTML signature downloaded!', 'info');
+      }
+
+      // Download Contact vCard
+      function downloadVCard() {
+        const vcf = generateVCard(state);
+        const blob = new Blob([vcf], { type: 'text/vcard;charset=utf-8' });
+        triggerDownload(blob, `${state.fullName.toLowerCase().replace(/\s+/g, '-')}.vcf`);
+        showToast('Contact card (.vcf) downloaded!', 'info');
+      }
+
+      function triggerDownload(blob, filename) {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(a.href);
+      }
+
+      // 20-Language i18n Switcher (Rule 1)
+      function applyLanguage(lang) {
+        if (!I18N[lang]) lang = 'en';
+        state.lang = lang;
+        const dict = I18N[lang];
+
+        document.documentElement.lang = lang;
+        document.documentElement.dir = dict.dir || 'ltr';
+
+        // Update UI Text
+        document.getElementById('ui-title').textContent = dict.title;
+        document.getElementById('ui-subtitle').textContent = dict.subtitle;
+
+        // Tabs
+        document.getElementById('tab-btn-profile').textContent = dict.profile;
+        document.getElementById('tab-btn-company').textContent = dict.company;
+        document.getElementById('tab-btn-contact').textContent = dict.contact;
+        document.getElementById('tab-btn-social').textContent = dict.social;
+        document.getElementById('tab-btn-styling').textContent = dict.style;
+
+        // Form labels
+        const labelMap = {
+          'lbl-fullName': dict.fullName,
+          'lbl-jobTitle': dict.jobTitle,
+          'lbl-avatarUrl': dict.avatarUrl,
+          'lbl-pronouns': dict.pronouns,
+          'lbl-company': dict.companyName,
+          'lbl-department': dict.department,
+          'lbl-website': dict.website,
+          'lbl-address': dict.address,
+          'lbl-email': dict.email,
+          'lbl-phone': dict.phone,
+          'lbl-mobile': dict.mobile,
+          'lbl-calendar': dict.calendar,
+          'lbl-disclaimer': dict.disclaimer,
+          'lbl-copy-rich': dict.copyRich,
+          'lbl-copy-html': dict.copyHtml,
+          'lbl-copy-text': dict.copyText,
+          'lbl-download-html': dict.downloadHtml,
+          'lbl-share': dict.share,
+          'lbl-live-preview': dict.livePreview,
+          'lbl-export-json': dict.exportJson,
+          'lbl-import-json': dict.importJson,
+          'lbl-reset': dict.reset,
+          'lbl-feedback': dict.feedback
+        };
+
+        for (const [id, txt] of Object.entries(labelMap)) {
+          const elem = document.getElementById(id);
+          if (elem && txt) elem.textContent = txt;
+        }
+
+        // Update font size controls i18n
+        const fDict = FONT_I18N[lang] || FONT_I18N.en;
+        const lblFontSize = document.getElementById('lbl-font-size');
+        if (lblFontSize) lblFontSize.textContent = fDict.size;
+        const btnSmall = document.getElementById('btn-size-small');
+        if (btnSmall) btnSmall.textContent = fDict.small;
+        const btnMed = document.getElementById('btn-size-medium');
+        if (btnMed) btnMed.textContent = fDict.medium;
+        const btnLg = document.getElementById('btn-size-large');
+        if (btnLg) btnLg.textContent = fDict.large;
+        syncFontSizeUI();
+
+        saveState();
+      }
+
+      // Theme Management: Dark Mode (Default) / Light Mode (Rule 7)
+      function applyTheme(theme) {
+        state.theme = theme;
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+          el.body.classList.remove('bg-slate-50', 'text-slate-900');
+          el.body.classList.add('bg-slate-950', 'text-slate-100');
+          el.themeDarkIcon.classList.add('hidden');
+          el.themeLightIcon.classList.remove('hidden');
+        } else {
+          document.documentElement.classList.remove('dark');
+          el.body.classList.remove('bg-slate-950', 'text-slate-100');
+          el.body.classList.add('bg-slate-50', 'text-slate-900');
+          el.themeDarkIcon.classList.remove('hidden');
+          el.themeLightIcon.classList.add('hidden');
+        }
+        saveState();
+      }
+
+      // Editor Tabs Handling
+      function setupTabs() {
+        const tabs = document.querySelectorAll('.tab-btn');
+        tabs.forEach(btn => {
+          btn.addEventListener('click', () => {
+            tabs.forEach(t => {
+              t.classList.remove('active', 'bg-slate-800', 'text-slate-200', 'shadow-sm');
+              t.classList.add('text-slate-400');
+            });
+            btn.classList.add('active', 'bg-slate-800', 'text-slate-200', 'shadow-sm');
+            btn.classList.remove('text-slate-400');
+
+            const targetId = btn.getAttribute('data-tab');
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
+            const targetPanel = document.getElementById(targetId);
+            if (targetPanel) targetPanel.classList.remove('hidden');
+          });
+        });
+      }
+
+      // Template & Color Selector Event Listeners
+      function setupStylingControls() {
+        // Templates
+        const templateBtns = document.querySelectorAll('.template-btn');
+        templateBtns.forEach(btn => {
+          btn.addEventListener('click', () => {
+            templateBtns.forEach(b => {
+              b.classList.remove('active', 'border-indigo-500', 'text-white');
+              b.classList.add('border-slate-700', 'text-slate-300');
+            });
+            btn.classList.add('active', 'border-indigo-500', 'text-white');
+            btn.classList.remove('border-slate-700', 'text-slate-300');
+            state.template = btn.getAttribute('data-template');
+            updatePreview();
+          });
+        });
+
+        // Accent Colors
+        const colorBtns = document.querySelectorAll('.color-btn');
+        colorBtns.forEach(btn => {
+          btn.addEventListener('click', () => {
+            colorBtns.forEach(b => {
+              b.classList.remove('border-white', 'scale-110');
+              b.classList.add('border-transparent');
+            });
+            btn.classList.add('border-white', 'scale-110');
+            btn.classList.remove('border-transparent');
+            state.accentColor = btn.getAttribute('data-color');
+            updatePreview();
+          });
+        });
+
+        // Preview device switcher (Desktop, Mobile, Card)
+        const modeBtns = document.querySelectorAll('.preview-mode-btn');
+        modeBtns.forEach(btn => {
+          btn.addEventListener('click', () => {
+            modeBtns.forEach(b => {
+              b.classList.remove('active', 'bg-slate-700', 'text-white');
+              b.classList.add('text-slate-400');
+            });
+            btn.classList.add('active', 'bg-slate-700', 'text-white');
+            btn.classList.remove('text-slate-400');
+
+            const mode = btn.getAttribute('data-mode');
+            if (mode === 'mobile') {
+              el.previewWrapper.style.maxWidth = '360px';
+              el.previewWrapper.style.margin = '0 auto';
+            } else if (mode === 'card') {
+              el.previewWrapper.style.maxWidth = '460px';
+              el.previewWrapper.style.margin = '0 auto';
+            } else {
+              el.previewWrapper.style.maxWidth = '100%';
+              el.previewWrapper.style.margin = '0';
+            }
+          });
+        });
+
+        // Font Size Slider
+        if (el.fontSizeSlider) {
+          el.fontSizeSlider.addEventListener('input', (e) => {
+            const val = e.target.value;
+            const newSize = val === '1' ? 'small' : (val === '3' ? 'large' : 'medium');
+            setFontSize(newSize);
+          });
+        }
+
+        // Font Size Quick-Select Buttons
+        const btnSmall = document.getElementById('btn-size-small');
+        const btnMedium = document.getElementById('btn-size-medium');
+        const btnLarge = document.getElementById('btn-size-large');
+        if (btnSmall) btnSmall.addEventListener('click', () => setFontSize('small'));
+        if (btnMedium) btnMedium.addEventListener('click', () => setFontSize('medium'));
+        if (btnLarge) btnLarge.addEventListener('click', () => setFontSize('large'));
+      }
+
+      // Keyboard Shortcuts & A11y (Rule 8)
+      function setupKeyboardShortcuts() {
+        window.addEventListener('keydown', (e) => {
+          // Esc: close modals
+          if (e.key === 'Escape') {
+            el.jsonModal.classList.add('hidden');
+            el.feedbackModal.classList.add('hidden');
+          }
+
+          // Ctrl/Cmd + Shift + C : Copy HTML
+          if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.code === 'KeyC') {
+            e.preventDefault();
+            copyRawHTML();
+          }
+
+          // Ctrl/Cmd + Shift + R : Copy Rich Signature
+          if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.code === 'KeyR') {
+            e.preventDefault();
+            copyRichSignature();
+          }
+
+          // Ctrl/Cmd + Shift + S : Share URL
+          if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.code === 'KeyS') {
+            e.preventDefault();
+            copyShareUrl();
+          }
+        });
+      }
+
+      // Shareable Link Action (Rule 4 & 12)
+      function copyShareUrl() {
+        updateHash();
+        copyStringToClipboard(window.location.href, 'Shareable signature link copied to clipboard!');
+      }
+
+      // Setup Modals & Action Buttons
+      function setupActions() {
+        // Copy buttons
+        document.getElementById('btn-copy-rich').addEventListener('click', copyRichSignature);
+        document.getElementById('btn-copy-html').addEventListener('click', copyRawHTML);
+        document.getElementById('btn-copy-text').addEventListener('click', copyPlainText);
+        document.getElementById('btn-download-html').addEventListener('click', downloadHTML);
+        document.getElementById('btn-download-vcard').addEventListener('click', downloadVCard);
+        document.getElementById('btn-share-url').addEventListener('click', copyShareUrl);
+
+        // Sample avatar button
+        document.getElementById('btn-sample-avatar').addEventListener('click', () => {
+          const avatars = [
+            'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80',
+            'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80',
+            'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&auto=format&fit=crop&q=80',
+            'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&auto=format&fit=crop&q=80'
+          ];
+          const next = avatars[(avatars.indexOf(state.avatarUrl) + 1) % avatars.length];
+          state.avatarUrl = next;
+          const input = document.getElementById('field-avatarUrl');
+          if (input) input.value = next;
+          updatePreview();
+        });
+
+        // Theme toggle button
+        el.themeToggle.addEventListener('click', () => {
+          applyTheme(state.theme === 'dark' ? 'light' : 'dark');
+        });
+
+        // Language selector
+        el.langSelect.addEventListener('change', (e) => {
+          applyLanguage(e.target.value);
+        });
+
+        // Reset defaults
+        document.getElementById('btn-reset').addEventListener('click', () => {
+          if (confirm('Reset all signature fields to default values?')) {
+            state = Object.assign({}, DEFAULT_STATE, { lang: state.lang, theme: state.theme });
+            bindInputs();
+            updatePreview();
+            showToast('Signature fields reset to default.', 'info');
+          }
+        });
+
+        // JSON Export (Rule 15)
+        document.getElementById('btn-export-json').addEventListener('click', () => {
+          el.jsonTextarea.value = JSON.stringify(state, null, 2);
+          el.jsonModal.classList.remove('hidden');
+        });
+
+        // JSON Import (Rule 15)
+        document.getElementById('btn-import-json').addEventListener('click', () => {
+          el.jsonTextarea.value = '';
+          el.jsonTextarea.placeholder = 'Paste valid SignaCard JSON string here...';
+          el.jsonModal.classList.remove('hidden');
+        });
+
+        document.getElementById('btn-close-json-modal').addEventListener('click', () => {
+          el.jsonModal.classList.add('hidden');
+        });
+
+        document.getElementById('btn-copy-json').addEventListener('click', () => {
+          copyStringToClipboard(el.jsonTextarea.value, 'JSON copied to clipboard!');
+        });
+
+        document.getElementById('btn-apply-json').addEventListener('click', () => {
+          try {
+            const parsed = JSON.parse(el.jsonTextarea.value);
+            state = Object.assign({}, DEFAULT_STATE, parsed);
+            bindInputs();
+            applyLanguage(state.lang || 'en');
+            applyTheme(state.theme || 'dark');
+            updatePreview();
+            el.jsonModal.classList.add('hidden');
+            showToast('Signature preset loaded successfully!', 'success');
+          } catch (e) {
+            showToast('Invalid JSON format. Please check syntax.', 'error');
+          }
+        });
+
+        // Feedback Modal (Rule 14)
+        document.getElementById('btn-feedback').addEventListener('click', () => {
+          el.feedbackModal.classList.remove('hidden');
+        });
+
+        document.getElementById('btn-close-feedback-modal').addEventListener('click', () => {
+          el.feedbackModal.classList.add('hidden');
+        });
+
+        document.getElementById('btn-submit-feedback').addEventListener('click', () => {
+          const txt = document.getElementById('feedback-text').value.trim();
+          if (!txt) {
+            showToast('Please enter your feedback message.', 'error');
+            return;
+          }
+          el.feedbackModal.classList.add('hidden');
+          document.getElementById('feedback-text').value = '';
+          showToast('Thank you! Your feedback has been received.', 'success');
+        });
+      }
+
+      // Initialize App
+      function init() {
+        loadSavedState();
+        bindInputs();
+        setupTabs();
+        setupStylingControls();
+        setupKeyboardShortcuts();
+        setupActions();
+
+        // Sync initial UI controls
+        el.langSelect.value = state.lang;
+        applyLanguage(state.lang);
+        applyTheme(state.theme);
+
+        // Highlight active template
+        document.querySelectorAll('.template-btn').forEach(btn => {
+          if (btn.getAttribute('data-template') === state.template) {
+            btn.classList.add('active', 'border-indigo-500', 'text-white');
+            btn.classList.remove('border-slate-700', 'text-slate-300');
+          } else {
+            btn.classList.remove('active', 'border-indigo-500', 'text-white');
+            btn.classList.add('border-slate-700', 'text-slate-300');
+          }
+        });
+
+        // Highlight active color
+        document.querySelectorAll('.color-btn').forEach(btn => {
+          if (btn.getAttribute('data-color') === state.accentColor) {
+            btn.classList.add('border-white', 'scale-110');
+            btn.classList.remove('border-transparent');
+          } else {
+            btn.classList.remove('border-white', 'scale-110');
+            btn.classList.add('border-transparent');
+          }
+        });
+
+        updatePreview();
+      }
+
+      // Boot application
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+  </script>
+</body>
+</html>
